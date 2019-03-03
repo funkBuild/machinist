@@ -1,0 +1,60 @@
+.Sidebar {
+  font-family: Verdana, Geneva, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: rgba(34,34,34,0.75);
+  height: 100%;
+  width: 350px;
+  margin: 0;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.Sidebar .headers {
+  width: 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Sidebar .headers > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  padding: 10px 10px;
+  transition: 150ms filter linear;
+}
+
+.Sidebar .headers > div:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+  transition: 150ms filter linear;
+}
+
+.Sidebar .headers > div > img {
+  height: 30px;
+  padding-bottom: 5px;
+}
+
+.Sidebar .SideMenu, .Sidebar .menuItem {
+  flex-grow: 1;
+  background: rgba(34,34,34,0.5);
+}
+
+.Sidebar .SideMenu .menuHeader {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+}
+
+.Sidebar .SideMenu .menuHeader img {
+  height: 40px;
+  padding-right: 10px;
+}

@@ -1,0 +1,46 @@
+.ModelMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.Sidebar .ModelMenu .menuHeader {
+  background-color: #587291;
+}
+
+.modelProperties {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.modelProperties > div, .dimensionsField > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.modelProperties > div:last-child {
+  margin-top: 20px;
+}
+
+.modelInput {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.modelInput input {
+  width: 200px;
+}
+
+.dimensionsField {
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.dimensionsField legend {
+  font-size: 13px;
+}
+

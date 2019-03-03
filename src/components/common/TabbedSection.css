@@ -1,0 +1,14 @@
+.TabbedSection {
+  font-size: 14px;
+}
+
+.TabbedSection .tabbedHeader {
+  background-color: rgba(0,0,0,0.4);
+  padding: 5px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.TabbedSection .tabbedHeader span:last-child {
+  float: right;
+}

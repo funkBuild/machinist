@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="path_finder.js"></script>
+    <script>
+        Module.addOnPostRun(() => {
+          var data = new Float32Array([1, 2, 3, 4, 5, 5,5,5,5,5]);
+          console.dir(data.length);
+
+          var nDataBytes = data.length * data.BYTES_PER_ELEMENT;
+          var dataPtr = Module._malloc(nDataBytes);
+          var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, nDataBytes);
+          dataHeap.set(new Uint8Array(data.buffer));
+
+          // Call function and get result
+         // float_multiply_array(2, dataHeap.byteOffset, data.length);
+          //var result = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, data.length);
+
+          // Free memory
+
+          const pathFinder = new Module.PathFinder(dataHeap.byteOffset, data.length / 2, 5);
+          console.dir(pathFinder);
+          
+          const sum = pathFinder.sum();
+          console.dir(sum);
+
+          Module._free(dataHeap.byteOffset);
+        });
+    </script>
+</body>
+
+</html>

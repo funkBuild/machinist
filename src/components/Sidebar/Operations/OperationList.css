@@ -1,0 +1,41 @@
+.OperationList {
+  margin: 20px;
+}
+
+.OperationList .listContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  height: 200px;
+  background-color: rgba(200,200,200,0.6);
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.OperationList .listContainer .operation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.OperationList .listContainer .operation:hover, .OperationList .listContainer .operation.selected {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.OperationList .listContainer .operation .opName::first-letter {
+  text-transform: uppercase;
+}
+
+.operationList .listContent {
+
+}
+
+.operationList .buttonContainer {
+
+}
+
+

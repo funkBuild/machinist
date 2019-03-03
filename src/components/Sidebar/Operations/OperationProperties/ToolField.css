@@ -1,0 +1,8 @@
+.ToolField {
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.ToolField .propertyField {
+  padding: 0 !important;
+}

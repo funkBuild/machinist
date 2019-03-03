@@ -1,0 +1,74 @@
+.OperationProperties {
+
+}
+
+.OperationProperties .message {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.propertyField {
+  font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 25px;
+  padding: 0 20px;
+}
+
+.propertyField > span:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.propertyField select {
+  width: 82px;
+  height: 20px;
+  text-align: center;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+.propertyField select option{
+  text-align: center;
+}
+
+.propertyField input {
+  width: 50px;
+  height: 20px;
+  text-align: center;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.propertyField .propSuffix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 30px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 0 3px 3px 0;
+  border-left: 1px solid #bbb;
+  font-size: 12px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.OperationProperties .buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}

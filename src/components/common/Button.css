@@ -1,0 +1,19 @@
+.Button {
+  display: inline-block;
+  padding: 4px 15px;
+  border-radius: 3px;
+  background-color: #6b5b95;
+  cursor: pointer;
+  transition: 150ms filter linear;
+  font-size: 13px;
+}
+
+.Button:hover {
+  filter: brightness(1.1);
+  transition: 100ms filter linear;
+}
+
+.Button.disabled {
+  background-color: #666;
+  cursor: default;
+}

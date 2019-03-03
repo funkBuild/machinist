@@ -1,0 +1,222 @@
+#include <emscripten/bind.h>
+//#include <iostream>
+#include <cmath>
+#include <vector>
+#include <map>
+
+
+using namespace emscripten;
+
+struct Point_2d
+{
+  int x = 0;
+  int y = 0;
+};
+
+bool operator==(const Point_2d& lhs, const Point_2d& rhs)
+{
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+}
+
+struct Node
+{
+  bool isClosed = false;
+  bool isQueued = false;
+  float gScore = 0;
+  float fScore = 0;
+  Point_2d position = Point_2d(); 
+  Node *parent_node;
+};
+
+bool compareByValue(const Node *elem1, const Node *elem2 )
+{
+    return elem1->fScore > elem2->fScore;
+}
+
+class PathFinder {
+private:
+  int map_width, map_height;
+  float z_height_min;
+  float* map;
+  Point_2d start_point = Point_2d(), end_point = Point_2d();
+  std::map<int,std::map<int,Node>> nodes;
+  std::vector<Node*> open_nodes;
+
+  const float x_speed = 100, y_speed = 100, z_speed = 1;
+
+  float get_map_height(int x, int y) {
+    return this->map[y + this->map_width * x];
+  }
+
+  bool is_reachable(int x, int y) {
+    return x >= 0
+      && y >= 0
+      && x < map_width
+      && y < map_height;
+  }
+
+  float estimate_cost(Node *node) {
+/*
+  estimateCost(node) {
+    const D = 1;
+
+    let currentZ = this.getNodeHeight(node);
+    let goalZ = this.getNodeHeight(this.end);
+
+    let dx = Math.abs(node.x - this.end.x) / this.xSpeed;
+    let dy = Math.abs(node.y - this.end.y) / this.ySpeed;
+    let dz = Math.abs(currentZ - goalZ) / this.zSpeed;
+
+    let heuristic = D * Math.sqrt(dx * dx + dy * dy + dz * dz);
+*/
+    const int D = 1;
+
+    float currentZHeight = get_map_height(node->position.x, node->position.y);
+    float goalZHeight = get_map_height(end_point.x, end_point.y);
+
+    float dx = std::abs(node->position.x - end_point.x) / x_speed;
+    float dy = std::abs(node->position.y - end_point.y) / y_speed;
+    float dz = std::abs(currentZHeight - goalZHeight) / z_speed;
+
+    return std::sqrt(dx*dx + dy*dy + dz*dz);
+  }
+
+  std::vector<int> get_return_path(Node *node) {
+    std::vector<int> path_array;
+
+    while(node->parent_node) {
+      //std::cout << "At pos: " << node->position.x << ' ' << node->position.y << '\n';
+      path_array.push_back(node->position.x);
+      path_array.push_back(node->position.y);
+
+      node = node->parent_node;
+    }
+    return path_array;
+  }
+
+public:
+  PathFinder(uintptr_t map_ptr, int map_width, int map_height)
+    : map( reinterpret_cast<float*>(map_ptr) )
+    , map_width(map_width)
+    , map_height(map_height)
+  {
+  }
+
+  void setZHeightMinimum(float _z_height_min) {
+    z_height_min = _z_height_min;
+    return;
+  }
+
+  void setStartPoint(int _x, int _y) {
+    start_point.x = _x;
+    start_point.y = _y;
+    return;
+  }
+
+  void setEndPoint(int _x, int _y) {
+    end_point.x = _x;
+    end_point.y = _y;
+    return;
+  }
+
+  emscripten::val route() {
+    nodes.clear();
+    open_nodes.clear();
+
+    nodes[start_point.x][start_point.y] = Node();
+    nodes[start_point.x][start_point.y].fScore = 0;
+    nodes[start_point.x][start_point.y].gScore = 0;
+    nodes[start_point.x][start_point.y].position.x = start_point.x;
+    nodes[start_point.x][start_point.y].position.y = start_point.y;
+    open_nodes.push_back( &nodes[start_point.x][start_point.y] );  
+
+    while(open_nodes.size() > 0) {
+      std::sort(open_nodes.begin(),open_nodes.end(),compareByValue);
+
+      Node *current_node = open_nodes.back();
+      open_nodes.pop_back();
+
+      //std::cout << "####\n";
+      //std::cout << "At pos: " << current_node->position.x << ' ' << current_node->position.y << '\n';
+      //std::cout << "gScore: " << current_node->gScore << '\n';
+      //std::cout << "fScore: " << current_node->fScore << '\n';
+
+      if( current_node->position == end_point ) {
+        // Calculate the return path
+        //std::cout << "###### Done \n";
+        std::vector<int> return_path = get_return_path(current_node);
+
+        emscripten::val returnVal = emscripten::val( 
+          emscripten::typed_memory_view<int>(
+            return_path.size(), &return_path[0]
+          )
+        );
+
+        return returnVal;
+      }
+      current_node->isQueued = false;
+      current_node->isClosed = true;
+
+      const int neib_indexes[] = { 1,0, -1,0, 0,1, 0,-1 };
+
+      for(short i=0; i < 8; i += 2) {
+        Node *this_node;
+        int next_x_position = current_node->position.x + neib_indexes[i];
+        int next_y_position = current_node->position.y + neib_indexes[i + 1];
+
+        // check next position isn't out of bounds
+        if(!is_reachable(next_x_position, next_y_position)) continue;
+
+
+        if( nodes.find(next_x_position) == nodes.end() ||
+            nodes[next_x_position].find(next_y_position) == nodes[next_x_position].end()) {
+          // Node doesn't exist, make a new one
+          nodes[next_x_position][next_y_position] = Node();
+          this_node = &nodes[next_x_position][next_y_position];
+          this_node->position.x = next_x_position;
+          this_node->position.y = next_y_position;
+          this_node->gScore = 9999999999;
+          //std::cout << "New node: " << this_node->position.x << ' ' << this_node->position.y << '\n';
+
+        } else {
+          // Fetch the existing node
+          this_node = &nodes[next_x_position][next_y_position];
+          //std::cout << "Existing node: " << this_node->position.x << ' ' << this_node->position.y << '\n';
+
+          if(this_node->isClosed) {
+            //std::cout << "Node is closed\n";
+            continue;
+          }
+        }
+        
+
+        //std::cout << "Adding node: " << this_node->position.x << ' ' << this_node->position.y << '\n';
+        if(!this_node->isQueued) {
+          this_node->isQueued = true;
+          open_nodes.push_back( this_node );
+        }
+
+        float current_gScore = current_node->gScore + 1;
+        if(current_gScore >= this_node->gScore) continue;
+
+        this_node->parent_node = current_node;
+
+        this_node->gScore = current_gScore;
+        this_node->fScore = estimate_cost(this_node);
+
+        //std::cout << "Scores: " << this_node->gScore << ' ' << this_node->fScore << '\n';
+      }
+    }
+
+    return emscripten::val::undefined();
+  }
+};
+
+EMSCRIPTEN_BINDINGS(raw_pointers) {
+  emscripten::class_<PathFinder>("PathFinder")
+      .constructor<uintptr_t, int, int>(allow_raw_pointers())
+      .function("setZHeightMinimum", &PathFinder::setZHeightMinimum)
+      .function("setStartPoint", &PathFinder::setStartPoint)
+      .function("setEndPoint", &PathFinder::setEndPoint)
+      .function("route", &PathFinder::route);
+}
