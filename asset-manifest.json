@@ -1,0 +1,21 @@
+{
+  "main.css": "/machinist/static/css/main.3e634514.chunk.css",
+  "main.js": "/machinist/static/js/main.f64153ed.chunk.js",
+  "main.js.map": "/machinist/static/js/main.f64153ed.chunk.js.map",
+  "runtime~main.js": "/machinist/static/js/runtime~main.8c8a3a3f.js",
+  "runtime~main.js.map": "/machinist/static/js/runtime~main.8c8a3a3f.js.map",
+  "static/js/2.e5f90652.chunk.js": "/machinist/static/js/2.e5f90652.chunk.js",
+  "static/js/2.e5f90652.chunk.js.map": "/machinist/static/js/2.e5f90652.chunk.js.map",
+  "3f01e2f2591ae1c410f1.worker.js": "/machinist/3f01e2f2591ae1c410f1.worker.js",
+  "3f01e2f2591ae1c410f1.worker.js.map": "/machinist/3f01e2f2591ae1c410f1.worker.js.map",
+  "8651d2eb8b080a7af1ec.worker.js": "/machinist/8651d2eb8b080a7af1ec.worker.js",
+  "8651d2eb8b080a7af1ec.worker.js.map": "/machinist/8651d2eb8b080a7af1ec.worker.js.map",
+  "index.html": "/machinist/index.html",
+  "precache-manifest.c575b452516956261b15c117098a0d85.js": "/machinist/precache-manifest.c575b452516956261b15c117098a0d85.js",
+  "service-worker.js": "/machinist/service-worker.js",
+  "static/css/main.3e634514.chunk.css.map": "/machinist/static/css/main.3e634514.chunk.css.map",
+  "static/media/export_icon.svg": "/machinist/static/media/export_icon.7c0c7e01.svg",
+  "static/media/model_icon.svg": "/machinist/static/media/model_icon.5b6e3166.svg",
+  "static/media/operations_icon.svg": "/machinist/static/media/operations_icon.c27d4702.svg",
+  "static/media/simulate_icon.svg": "/machinist/static/media/simulate_icon.4b3eb9e4.svg"
+}
