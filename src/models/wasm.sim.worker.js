@@ -1,7 +1,7 @@
 //import 'babel-polyfill';
 import Simulation from './wasmSimWorker/simulation.js'
 
-self.importScripts('/main.js');
+self.importScripts('main.js');
 
 Module.onRuntimeInitialized = () => {
   const Worker = new class {
